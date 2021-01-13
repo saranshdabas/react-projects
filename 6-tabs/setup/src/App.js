@@ -24,6 +24,9 @@ function App() {
       </div>
     );
   }
+
+  //Adding active class on the fly by checking if the index has the same value as currently selected value
+  //Using interpolation
   const { title, duties, company, dates } = jobs[value];
   return (
     <section className="section">
@@ -33,6 +36,19 @@ function App() {
       </div>
       <div className="jobs-center">
         {/* Button container */}
+        <div className="btn-container">
+          {jobs.map((job, index) => {
+            return (
+              <button
+                className={`job-btn ${index === value && "active-btn"}`}
+                key={job.id}
+                onClick={() => setValue(index)}
+              >
+                {job.company}
+              </button>
+            );
+          })}
+        </div>
         {/* Job info */}
         <article className="job-info">
           <h3>{company}</h3>
