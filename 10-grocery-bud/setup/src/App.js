@@ -5,7 +5,7 @@ import Alert from "./Alert";
 function App() {
   const [list, setList] = useState([]);
   const [alert, setAlert] = useState({ show: false, msg: "", type: "" });
-  const [editId, setEditId] = useState("");
+  const [editId, setEditId] = useState(null);
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState("");
 
@@ -14,7 +14,18 @@ function App() {
     if (!name) {
       displayAlert(true, "Please enter a value", "danger");
     } else if (editing) {
-      // Edit fn
+      setList(
+        list.map((item) => {
+          if (item.id === editId) {
+            return { ...item, title: name };
+          }
+          return item;
+        })
+      );
+      displayAlert(true, "Edit was successfull", "success");
+      setName("");
+      setEditId("");
+      setEditing(false);
     } else {
       const newItem = { title: name, id: new Date().getTime().toString() };
       setList([...list, newItem]);
@@ -35,6 +46,13 @@ function App() {
   const removeItem = (id) => {
     setList(list.filter((item) => item.id !== id));
     displayAlert(true, "Item deleted", "danger");
+  };
+
+  const editItem = (id) => {
+    const specificItem = list.find((item) => item.id === id);
+    setEditId(id);
+    setEditing(true);
+    setName(specificItem.title);
   };
 
   return (
@@ -58,7 +76,7 @@ function App() {
       </form>
       {list.length > 0 && (
         <div className="grocery-container">
-          <List items={list} removeItem={removeItem} />
+          <List items={list} removeItem={removeItem} editItem={editItem} />
           <button className="clear-btn" onClick={clearList}>
             Clear items
           </button>
