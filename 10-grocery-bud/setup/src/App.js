@@ -2,8 +2,18 @@ import React, { useState, useEffect } from "react";
 import List from "./List";
 import Alert from "./Alert";
 
+//Getting value from loca storage on refresh
+const getListFromLocal = () => {
+  const list = localStorage.getItem("list");
+  if (list) {
+    return JSON.parse(list);
+  } else {
+    return [];
+  }
+};
+
 function App() {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(getListFromLocal());
   const [alert, setAlert] = useState({ show: false, msg: "", type: "" });
   const [editId, setEditId] = useState(null);
   const [editing, setEditing] = useState(false);
@@ -54,6 +64,11 @@ function App() {
     setEditing(true);
     setName(specificItem.title);
   };
+
+  //Setting local storage every time list changes
+  useEffect(() => {
+    localStorage.setItem("list", JSON.stringify(list));
+  }, [list]);
 
   return (
     <section className="section-center">
