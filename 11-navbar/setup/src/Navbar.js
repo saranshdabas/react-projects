@@ -3,6 +3,8 @@ import { FaBars, FaTwitter } from "react-icons/fa";
 import { links, social } from "./data";
 import logo from "./logo.svg";
 
+//The issue with show hide menu using conditional rendering is that it doesn't show animation(it is instant)
+//For animation to work we need to dynamically add class
 const Navbar = () => {
   const [showList, setShowList] = useState(false);
   return (
@@ -14,20 +16,18 @@ const Navbar = () => {
             <FaBars />
           </button>
         </div>
-        {showList && (
-          <div className="links-container show-container">
-            <ul className="links">
-              {links.map((link) => {
-                const { id, url, text } = link;
-                return (
-                  <li key={id}>
-                    <a href={url}>{text}</a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
+        <div className={`links-container ${showList && "show-container"}`}>
+          <ul className="links">
+            {links.map((link) => {
+              const { id, url, text } = link;
+              return (
+                <li key={id}>
+                  <a href={url}>{text}</a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
         <ul className="social-icons">
           {social.map((link) => {
             const { id, url, icon } = link;
