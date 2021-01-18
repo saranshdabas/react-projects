@@ -3,10 +3,25 @@ import { FaBars, FaTwitter } from "react-icons/fa";
 import { links, social } from "./data";
 import logo from "./logo.svg";
 
-//The issue with show hide menu using conditional rendering is that it doesn't show animation(it is instant)
-//For animation to work we need to dynamically add class
+//The issue with dynamic class is that in our case heigh is 10rem for links-container
+//We can only see 4 items while our data has 5
+//We need to dynamically adjust the height of links-container based on no of links using useRef
 const Navbar = () => {
   const [showList, setShowList] = useState(false);
+  const linksContainerRef = useRef(null);
+  const linksRef = useRef(null);
+
+  //Every time showList value changes we dynamically adjust the height of linksContainer
+  useEffect(() => {
+    //getBoundingClientRect() gets us things like position and height of element (Javascript)
+    const linksHeight = linksRef.current.getBoundingClientRect().height;
+    if (showList) {
+      linksContainerRef.current.style.height = `${linksHeight}px`;
+    } else {
+      linksContainerRef.current.style.height = `0px`;
+    }
+  }, [showList]);
+
   return (
     <nav>
       <div className="nav-center">
@@ -16,8 +31,8 @@ const Navbar = () => {
             <FaBars />
           </button>
         </div>
-        <div className={`links-container ${showList && "show-container"}`}>
-          <ul className="links">
+        <div className="links-container" ref={linksContainerRef}>
+          <ul className="links" ref={linksRef}>
             {links.map((link) => {
               const { id, url, text } = link;
               return (
