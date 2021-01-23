@@ -17,7 +17,6 @@ export const AppProvider = ({ children }) => {
   };
   const openSubmenu = (text, location) => {
     const sublink = sublinks.find((link) => link.page === text);
-    console.log(sublinks, text);
     setLink(sublink);
     setLocation(location);
     setSubmenuOpen(true);
