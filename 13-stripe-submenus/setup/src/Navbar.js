@@ -6,7 +6,7 @@ import { useGlobalContext } from "./context";
 const Navbar = () => {
   const { openSidebar, openSubmenu, closeSubmenu } = useGlobalContext();
   const displaySubmenu = (e) => {
-    const page = e.target.text;
+    const page = e.target.textContent;
     const tempBtn = e.target.getBoundingClientRect();
     const center = (tempBtn.left + tempBtn.right) / 2;
     const bottom = tempBtn.bottom - 3;
@@ -25,17 +25,17 @@ const Navbar = () => {
         <ul className="nav-links">
           <li>
             <button className="link-btn" onMouseOver={displaySubmenu}>
-              Products
+              products
             </button>
           </li>
           <li>
             <button className="link-btn" onMouseOver={displaySubmenu}>
-              Developers
+              developers
             </button>
           </li>
           <li>
             <button className="link-btn" onMouseOver={displaySubmenu}>
-              Company
+              company
             </button>
           </li>
         </ul>
